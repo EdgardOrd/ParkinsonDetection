@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Paciente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label, input {
+            margin: 10px;
+            padding: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .image-container {
+            width: 45%;
+            text-align: center;
+            margin: 0 10px;
+        }
+        .image-container img {
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            height: auto;
+        }
+        .image-container .spectrogram {
+            max-width: 100%;
+        }
+        .image-container .bdi {
+            max-width: 100%;
+        }
+        .image-title {
+            font-size: 1.1em;
+            color: #333;
+            margin-top: 10px;
+        }
+        .details {
+            width: 45%;
+            margin: 0 10px;
+        }
+        .details h2 {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .details table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .diagnosis {
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles del Paciente</h1>
+        <form method="POST" action="/">
+            <label for="patient_id">ID del Paciente:</label>
+            <input type="text" id="patient_id" name="patient_id" required>
+            <input type="submit" value="Enviar">
+        </form>
+
+        <div class="content">
+            <div class="image-container">
+                <div class="image-title">Espectrograma</div>
+                {% if spectrogram_path %}
+                    <img class="spectrogram" src="{{ spectrogram_path }}" alt="Espectrograma">
+                {% else %}
+                    <p>No se encontró el espectrograma para el paciente ID {{ patient_id }}.</p>
+                {% endif %}
+            </div>
+
+            <div class="details">
+                <h2>Datos del Paciente</h2>
+                {% if patient_info %}
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ patient_info.NAME }}</td>
+                        </tr>
+                        <tr>
+                            <th>Edad</th>
+                            <td>{{ patient_info.AGE }}</td>
+                        </tr>
+                        <tr>
+                            <th>Género</th>
+                            <td>{{ patient_info.GENDER }}</td>
+                        </tr>
+                    </table>
+                {% else %}
+                    <p>No se encontró información para el paciente ID {{ patient_id }}.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="details">
+                <h2>Detalle</h2>
+                {% if patient_info %}
+                    <table>
+                        <tr>
+                            <th>MOCA</th>
+                            <td>{{ patient_info.MOCA }}</td>
+                        </tr>
+                        <tr>
+                            <th>UPDRS</th>
+                            <td>{{ patient_info.UPDRS }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo</th>
+                            <td>{{ patient_info.TYPE }}</td>
+                        </tr>
+                    </table>
+                {% else %}
+                    <p>No se encontró información para el paciente ID {{ patient_id }}.</p>
+                {% endif %}
+            </div>
+
+            <div class="image-container">
+                <div class="image-title">Banda de Frecuencia</div>
+                {% if bdi_path %}
+                    <img class="bdi" src="{{ bdi_path }}" alt="Banda de Frecuencia">
+                {% else %}
+                    <p>No se encontró la banda de frecuencia para el paciente ID {{ patient_id }}.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="diagnosis">
+            <h2>Diagnóstico</h2>
+            {% if diagnosis_message %}
+                <p>{{ diagnosis_message }}</p>
+            {% else %}
+                <p>No se encontró diagnóstico para el paciente ID {{ patient_id }}.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
