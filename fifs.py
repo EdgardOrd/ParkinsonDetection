@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import mne
 
 # Ruta al archivo .fif generado por el script de preprocesamiento
-fif_file_path = r"C:\Users\EdgardOrdoñez\OneDrive - AltiaTek\Desktop\preprocessed\sub-002\sub-002-epo.fif"
+fif_file_path = r"C:\Users\User\Desktop\preprocessed\sub-002\sub-002-epo.fif"
 
 # Cargar el archivo .fif
 epochs = mne.read_epochs(fif_file_path)
